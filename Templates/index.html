@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentiment Analyzer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #253858;
+        }
+
+        p {
+            color: #666;
+        }
+
+        textarea {
+            width: 100%;
+            height: 130px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+
+        .positive {
+            color: #16a34a;
+        }
+
+        .negative {
+            color: #dc2626;
+        }
+
+        .score {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>AI Sentiment Analyzer</h1>
+        <p>영어 문장을 입력하면 AI가 감정을 분석합니다.</p>
+
+        <form method="POST" action="/">
+            <textarea
+                name="review"
+                placeholder="Enter your English text here..."
+                required>{{ text }}</textarea>
+
+            <button type="submit">Analyze Sentiment</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Analysis Result</h2>
+
+            {% if result.label == "POSITIVE" %}
+                <h2 class="positive">Positive 😊</h2>
+            {% elif result.label == "NEGATIVE" %}
+                <h2 class="negative">Negative 😞</h2>
+            {% else %}
+                <h2>{{ result.label }}</h2>
+            {% endif %}
+
+            <p>AI Confidence Score</p>
+
+            <div class="score">
+                {{ "%.2f"|format(result.score * 100) }}%
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
